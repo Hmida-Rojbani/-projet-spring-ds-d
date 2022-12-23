@@ -56,7 +56,9 @@ public class StudentController {
     @GetMapping("/{sid}/update")
     public String updateView(@PathVariable Long sid, Model model) {
         model.addAttribute("student", studentService.getStudentBySid(sid));
+        System.out.println(groupService.getAllGroups());
         model.addAttribute("groups", groupService.getAllGroups());
+
         return "students/update";
     }
 
@@ -91,8 +93,12 @@ public class StudentController {
 
     @PostMapping("/{sid}/add-image")
     //TODO complete the parameters of this method
-    public String addImage() {
+    public String addImage(@Valid @PathVariable Long sid ,@RequestParam("image") MultipartFile multipartFile) throws IOException {
         //TODO complete the body of this method
+        Image img=imageService.addImage(multipartFile);
+        Student student=studentService.getStudentBySid(sid);
+        student.setImage(img);
+        studentService.updateStudent(student);
         return "redirect:/students";
     }
 
