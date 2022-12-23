@@ -96,8 +96,67 @@
                                         <tr>
                                             <th class="text-primary" >TOTAL</th>
                                             <td th:each="groupSubject : ${groupSubjects}"
-                                                th:text="${absenceService.hoursCountByGroupAndSubject(group.id, groupSubject.subject.id)+'h'}"></td>
+                                                th:text="${absenceService.hoursCountByGroupAndSubject(group.id, groupSubject.subject.id)+'h'}">
+                                            </td>
                                         </tr>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Question 1 show the highest absences subject and the lowest  -->
+
+                    <div class="row">
+                        <!-- Subject with high absences -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-text card-header-primary">
+                                    <div class="card-text">
+                                        <h4 class="card-title">SUBJECTS With High Absences </h4>
+                                    </div>
+                                </div>
+                                <div class="card-body table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="text-primary">
+                                        <th>Name</th>
+                                        <th>Total Absences</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:classappend="${'bg-danger text-light'}" >
+                                            <td th:text="${MaxAbcensesSubject.name}"></td>
+                                            <td
+                                                th:text="${absenceService.hoursCountByGroupAndSubject(group.id, MaxAbcensesSubject.id)+'h'}">
+                                            </td>
+                                        </tr>
+
+                                        </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+
+                        <!-- Subject with low absences -->
+                        <div class="col-md-6">
+                            <div class="card">
+                                <div class="card-header card-header-text card-header-primary">
+                                    <div class="card-text">
+                                        <h4 class="card-title">SUBJECTS With Low Absences</h4>
+                                    </div>
+                                </div>
+                                <div class="card-body table-responsive">
+                                    <table class="table table-hover">
+                                        <thead class="text-primary">
+                                        <th>Name</th>
+                                        <th>Total Absences</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr th:classappend="${'bg-success text-light'}" >
+                                            <td th:text="${MinAbcensesSubject.name}"></td>
+                                            <td
+                                                    th:text="${absenceService.hoursCountByGroupAndSubject(group.id, MinAbcensesSubject.id)+'h'}">
+                                            </td>
+                                        </tr>
+                                        </tbody>
                                     </table>
                                 </div>
                             </div>
