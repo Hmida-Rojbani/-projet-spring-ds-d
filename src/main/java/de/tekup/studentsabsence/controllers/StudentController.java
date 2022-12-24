@@ -80,9 +80,7 @@ public class StudentController {
     }
 
     @PostMapping("/{sid}/add-image")
-    //TODO complete the parameters of this method
         public String addImage(@Valid @PathVariable Long sid ,@RequestParam("image") MultipartFile multipartFile) throws IOException {
-            //TODO complete the body of this method
             Image img=imageService.addImage(multipartFile);
             Student student=studentService.getStudentBySid(sid);
             student.setImage(img);

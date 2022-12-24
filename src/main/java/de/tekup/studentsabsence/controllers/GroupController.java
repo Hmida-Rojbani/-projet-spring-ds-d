@@ -82,8 +82,6 @@ public class GroupController {
         model.addAttribute("groupSubjects",groupSubjects);
         model.addAttribute("students",group.getStudents());
         model.addAttribute("absenceService", absenceService);
-
-        //Question 1
         Subject maxsubject = groupSubjectService.getMaxAbsenceSubject(groupSubjects );
         Subject minsubject= groupSubjectService.getMinAbsenceSubject(groupSubjects);
         model.addAttribute("MaxAbcensesSubject", maxsubject);
@@ -127,7 +125,6 @@ public class GroupController {
     }
     @PostMapping("/{id}/add-absences")
     public String addAbsence(@PathVariable long id, @Valid Absence absence, BindingResult bindingResult, @RequestParam(value = "students", required = false) List<Student> students, Model model) {
-        //TODO Complete the body of this method
         if(bindingResult.hasErrors()){
             Group group = groupService.getGroupById(id);
 
@@ -140,7 +137,6 @@ public class GroupController {
         }
         for (Student s:students) {
             absence.setStudent(s);
-            //System.out.println(absence);
             absenceService.addAbsence(absence);
         }
         return "redirect:/groups/"+id+"/add-absences";

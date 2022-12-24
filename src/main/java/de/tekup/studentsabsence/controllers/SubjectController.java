@@ -77,7 +77,6 @@ public class SubjectController {
         model.addAttribute("subjectService",subjectService);
         return "subjects/show";
     }
-    //question 2 sending mail
     @GetMapping("/Mail/{sid}/{sbid}")
     public String sendingMail(@PathVariable Long sid,@PathVariable Long sbid){
         Subject subject=subjectService.getSubjectById(sbid);
