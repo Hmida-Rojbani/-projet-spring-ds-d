@@ -1,12 +1,9 @@
 package de.tekup.studentsabsence.entities;
-
 import lombok.AllArgsConstructor;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-
 import javax.persistence.*;
 import java.io.Serializable;
-
 @Entity
 @Data
 @AllArgsConstructor
@@ -16,12 +13,12 @@ public class GroupSubject implements Serializable {
     private GroupSubjectKey id;
 
     @ManyToOne
-    @MapsId("group_id")
+    @MapsId("groupId")
     @JoinColumn(name = "group_id")
     private Group group;
 
     @ManyToOne
-    @MapsId("subject_id")
+    @MapsId("subjectId")
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
