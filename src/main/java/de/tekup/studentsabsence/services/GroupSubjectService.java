@@ -10,4 +10,6 @@ public interface GroupSubjectService {
     void addSubjectToGroup(Group group, Subject subject, float hours);
     List<GroupSubject> getSubjectsByGroupId(Long id);
     void deleteSubjectFromGroup(Long gid, Long sid);
+
+    abstract GroupSubject getGroupSubjectBySubjectIdAndGroupId(Long gid, Long sid);
 }

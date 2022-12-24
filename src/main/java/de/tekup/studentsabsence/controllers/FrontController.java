@@ -1,5 +1,6 @@
 package de.tekup.studentsabsence.controllers;
 
+import de.tekup.studentsabsence.utils.SendInBlue;
 import org.springframework.stereotype.Controller;
 import org.springframework.web.bind.annotation.GetMapping;
 
