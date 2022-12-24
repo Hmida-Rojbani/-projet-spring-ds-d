@@ -41,6 +41,7 @@
                                 </div>
                             </div>
                         </div>
+
                         <div class="col-md-6">
                             <div class="card">
                                 <div class="card-header card-header-text card-header-primary">
@@ -63,6 +64,27 @@
                                                 <a class="btn btn-link btn-danger btn-just-icon remove"
                                                    th:href="@{/groups/{gid}/subject/{sid}/delete (gid=${groupSubject.group.id}, sid=${groupSubject.subject.id})}"><i class="material-icons">delete</i></a>
                                             </td>
+
+                                        </tr>
+                                        </tbody>
+                                    </table>
+
+                                    <table class="table table-hover">
+                                        <thead class="text-primary">
+                                        <th></th>
+                                        <th>Subject</th>
+                                        <th>Hours</th>
+                                        </thead>
+                                        <tbody>
+                                        <tr>
+                                            <td class="text-primary">Max Absences</td>
+                                            <td th:text="${maxSubject.name}"></td>
+                                            <td th:text="${maxSubject.hours}+h"></td>
+                                        </tr>
+                                        <tr>
+                                            <td class="text-primary">Min Absences</td>
+                                            <td th:text="${minSubject.name}"></td>
+                                            <td th:text="${minSubject.hours}+h"></td>
                                         </tr>
                                         </tbody>
                                     </table>
