@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en"
+      layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>DASHBOARDS</title>
+</head>
+
+
+
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12">
+            <div class="card">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">dashboard</i>
+                    </div>
+                    <h4 class="card-title">DASHBOARDS</h4>
+                </div>
+                <div class="card-body">
+
+                    <div style="display: flex;flex-direction: row;">
+                        <div style=" width: 50%;height: 100vh; margin: 5px; padding: 5px;">
+                            <h3>Max</h3>
+                            <canvas id="maxChart" style="width:100%; max-width:600px" width="600" height="400"></canvas>
+                        </div>
+
+                        <div style=" width: 50%;height: 100vh; margin: 5px; padding: 5px;">
+                            <h3>Min</h3>
+                            <canvas id="minChart" style="width:100%; max-width:600px" width="600" height="400"></canvas>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/Chart.js/3.7.0/chart.min.js"></script>
+
+    <script th:inline="javascript">
+        const options = {
+            responsive: false,
+            legend: {display: true},
+            title: {
+                display: true,
+                text: "Total of absences"
+            },
+            scales: {
+                x: { title: { text: 'Group_Subjects', display: true } },
+                y: { title: { text: 'Total Absence', display: true } },
+            }
+        }
+        const maxValues = [[${max}]];
+        const maxCtx = document.getElementById('maxChart')
+        const xLabelMaxSubjectArray = maxValues.map(({groupName, subjectName}) => groupName+' - '+subjectName)
+        const yLabelMaxTotalHours = maxValues.map(({totalHours}) => totalHours)
+
+        new Chart(maxCtx, {
+            type: "bar",
+            data: {
+                labels: xLabelMaxSubjectArray,
+                datasets: [{
+                    label: '# of Absences',
+                    backgroundColor: "#EB455F",
+                    data: yLabelMaxTotalHours
+                }]
+            },
+            options
+        })
+
+        const minValues = [[${min}]];
+        const minCtx = document.getElementById('minChart');
+        const xLabelMinSubjectArray = minValues.map(({groupName, subjectName}) => groupName+' - '+subjectName);
+        const yLabelMinTotalHours = minValues.map(({totalHours}) => totalHours);
+
+        new Chart(minCtx, {
+            type: "bar",
+            data: {
+                labels: xLabelMinSubjectArray,
+                datasets: [{
+                    label: '# of Absences',
+                    backgroundColor: "#BAD7E9",
+                    data: yLabelMinTotalHours
+                }]
+            },
+            options
+        })
+    </script>
+
+</div>
+</body>
+</html>

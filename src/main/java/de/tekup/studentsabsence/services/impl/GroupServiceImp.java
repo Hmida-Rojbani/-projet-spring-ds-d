@@ -3,7 +3,7 @@ package de.tekup.studentsabsence.services.impl;
 import de.tekup.studentsabsence.entities.Group;
 import de.tekup.studentsabsence.repositories.GroupRepository;
 import de.tekup.studentsabsence.services.GroupService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
@@ -11,9 +11,13 @@ import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
-@AllArgsConstructor
 public class GroupServiceImp implements GroupService {
     private final GroupRepository groupRepository;
+
+    @Autowired
+    public GroupServiceImp(GroupRepository groupRepository) {
+        this.groupRepository = groupRepository;
+    }
 
     @Override
     public List<Group> getAllGroups() {

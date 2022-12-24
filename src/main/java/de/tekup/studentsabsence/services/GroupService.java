@@ -1,8 +1,11 @@
 package de.tekup.studentsabsence.services;
 
 import de.tekup.studentsabsence.entities.Group;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
+
+@Service
 
 public interface GroupService {
     List<Group> getAllGroups();

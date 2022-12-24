@@ -5,8 +5,8 @@ import de.tekup.studentsabsence.entities.Student;
 import de.tekup.studentsabsence.services.GroupService;
 import de.tekup.studentsabsence.services.ImageService;
 import de.tekup.studentsabsence.services.StudentService;
-import lombok.AllArgsConstructor;
 import org.apache.tomcat.util.http.fileupload.IOUtils;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -21,14 +21,23 @@ import java.io.InputStream;
 import java.util.List;
 
 @Controller
-@AllArgsConstructor
 @RequestMapping("/students")
 public class StudentController {
     private final StudentService studentService;
     private final GroupService groupService;
     private final ImageService imageService;
 
-    @GetMapping({"", "/"})
+    @Autowired
+    public StudentController(StudentService studentService,
+                             GroupService groupService,
+                             ImageService imageService) {
+
+        this.studentService = studentService;
+        this.groupService = groupService;
+        this.imageService = imageService;
+    }
+
+    @GetMapping
     public String index(Model model) {
         List<Student> students = studentService.getAllStudents();
         model.addAttribute("students", students);
@@ -44,7 +53,7 @@ public class StudentController {
 
     @PostMapping("/add")
     public String add(@Valid Student student, BindingResult bindingResult, Model model) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("groups", groupService.getAllGroups());
             return "students/add";
         }
@@ -62,12 +71,12 @@ public class StudentController {
 
     @PostMapping("/{sid}/update")
     public String update(@PathVariable Long sid, @Valid Student student, BindingResult bindingResult, Model model) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             model.addAttribute("groups", groupService.getAllGroups());
             return "students/update";
         }
 
-        studentService.updateStudent(student);
+        this.studentService.updateStudent(student);
         return "redirect:/students";
     }
 
@@ -90,9 +99,11 @@ public class StudentController {
     }
 
     @PostMapping("/{sid}/add-image")
-    //TODO complete the parameters of this method
-    public String addImage() {
+    public String addImage(@PathVariable Long sid, @RequestParam("image") MultipartFile m) throws IOException {
         //TODO complete the body of this method
+        Student student = studentService.getStudentBySid(sid);
+        student.setImage(imageService.addImage(m));
+        studentService.updateStudent(student);
         return "redirect:/students";
     }
 
@@ -101,7 +112,7 @@ public class StudentController {
         Student student = studentService.getStudentBySid(sid);
         Image image = student.getImage();
 
-        if(image != null) {
+        if (image != null) {
             response.setContentType(image.getFileType());
             InputStream inputStream = new ByteArrayInputStream(image.getData());
             IOUtils.copy(inputStream, response.getOutputStream());

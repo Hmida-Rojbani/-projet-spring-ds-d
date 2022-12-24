@@ -2,7 +2,7 @@ package de.tekup.studentsabsence.controllers;
 
 import de.tekup.studentsabsence.entities.Subject;
 import de.tekup.studentsabsence.services.SubjectService;
-import lombok.AllArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
@@ -17,11 +17,15 @@ import java.util.List;
 
 @Controller
 @RequestMapping("/subjects")
-@AllArgsConstructor
 public class SubjectController {
     private final SubjectService subjectService;
 
-    @GetMapping({"", "/"})
+    @Autowired
+    public SubjectController(SubjectService subjectService) {
+        this.subjectService = subjectService;
+    }
+
+    @GetMapping
     public String index(Model model) {
         List<Subject> subjects = subjectService.getAllSubjects();
         model.addAttribute("subjects", subjects);
@@ -36,7 +40,7 @@ public class SubjectController {
 
     @PostMapping("/add")
     public String add(@Valid Subject subject, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "subjects/add";
         }
 
@@ -52,7 +56,7 @@ public class SubjectController {
 
     @PostMapping("/{id}/update")
     public String update(@PathVariable Long id, @Valid Subject subject, BindingResult bindingResult) {
-        if(bindingResult.hasErrors()) {
+        if (bindingResult.hasErrors()) {
             return "subjects/update";
         }
 
@@ -62,7 +66,6 @@ public class SubjectController {
 
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable Long id) {
-
         subjectService.deleteSubject(id);
         return "redirect:/subjects";
     }

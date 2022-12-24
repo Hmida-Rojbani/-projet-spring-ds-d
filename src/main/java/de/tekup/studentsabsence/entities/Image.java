@@ -1,26 +1,38 @@
 package de.tekup.studentsabsence.entities;
 
 import lombok.AllArgsConstructor;
-import lombok.Data;
+import lombok.Getter;
 import lombok.NoArgsConstructor;
-import org.hibernate.annotations.GenericGenerator;
+import lombok.Setter;
 
-import javax.persistence.Entity;
-import javax.persistence.GeneratedValue;
-import javax.persistence.Id;
-import javax.persistence.Lob;
+import javax.persistence.*;
+import java.io.Serializable;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
-public class Image {
+@Table(name = "images")
+public class Image implements Serializable {
+
     @Id
-    @GeneratedValue(generator = "uuid")
-    @GenericGenerator(name = "uuid", strategy = "uuid2")
-    private String id;
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Column(name = "image_id", nullable = false)
+    private Long id;
+
+
+    @Column(name = "file_name", nullable = false, unique = true)
     private String fileName;
+
+  
+    @Column(name = "file_type", nullable = false)
     private String fileType;
+
     @Lob
+ 
+    @Column(name = "data", nullable = false)
     private byte[] data;
+
+
 }

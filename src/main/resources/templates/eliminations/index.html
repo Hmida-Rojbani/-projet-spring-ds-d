@@ -1,0 +1,92 @@
+<!doctype html>
+<html lang="en"
+      layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <title>DASHBOARDS</title>
+</head>
+
+
+<body>
+<div layout:fragment="content">
+    <div class="row">
+        <div class="col-md-12" id="container-mail">
+
+
+
+            <div class="card" th:each="eliminatedStudents : ${eliminatedStudentsList}">
+                <div class="card-header card-header-primary card-header-icon">
+                    <div class="card-icon">
+                        <i class="material-icons">travel_explore</i>
+                    </div>
+                </div>
+                <div class="card-body">
+                    <div class="row">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-text card-header-primary">
+                                    <div class="card-text">
+                                        <h4 class="card-title">ELIMINATION</h4>
+                                    </div>
+                                </div>
+                                <div class="card-body">
+                                    <div class="material-datatables">
+                                        <table cellspacing="0" class="table table-striped table-no-bordered table-hover" id="datatables-${eliminatedStudents.size()}"
+                                               style="width:100%" width="100%">
+                                            <thead>
+                                            <tr>
+                                                <th>SID</th>
+                                                <th>Full Name</th>
+                                                <th>Email</th>
+                                                <th>Group</th>
+                                                <th>Subject</th>
+                                                <th class="disabled-sorting text-right">Actions</th>
+                                            </tr>
+                                            </thead>
+                                            <tbody>
+                                            <tr th:each="elimination : ${eliminatedStudents}">
+                                                <td th:text="${elimination.getStudent().sid}"></td>
+                                                <td><span th:text="${elimination.getStudent().firstName}"></span> <span th:text="${elimination.getStudent().lastName}"></span></td>
+                                                <td th:text="${elimination.getStudent().email}"></td>
+                                                <td th:text="${elimination.getGroup().getName()}"></td>
+                                                <td th:text="${elimination.getSubject().getName()}"></td>
+                                                <td class="text-right">
+                                                    <a class="btn btn-link btn-warning btn-just-icon like" rel="tooltip" title="Send Email"
+                                                       th:href="@{/eliminations/{sid}/send-mail (sid=${elimination.getStudent().sid})}"><i class="material-icons">mail</i></a>
+                                                </td>
+                                            </tr>
+                                            </tbody>
+                                        </table>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                </div>
+            </div>
+        </div>
+    </div>
+
+    <script th:inline="javascript">
+        const container_mail = document.querySelector("#container-mail")
+
+        Array.from(document.querySelectorAll('.material-icons')).map((elem) => elem.addEventListener("click", () => {
+            container_mail.innerHTML = ` <div class="alert alert-warning alert-dismissible fade show" id="hidden-alert" role="alert" >
+                                  <strong>Email was successfully sent !</strong> You should check your email.
+                                  <button type="button" class="close" data-dismiss="alert" aria-label="Close">
+                                   <span aria-hidden="true">&times;</span>
+                                </button>
+                             </div>` + container_mail.innerHTML;
+        }))
+
+
+    </script>
+
+</div>
+</body>
+</html>

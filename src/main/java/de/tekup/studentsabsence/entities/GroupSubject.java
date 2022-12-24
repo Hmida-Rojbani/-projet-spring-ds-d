@@ -1,29 +1,32 @@
 package de.tekup.studentsabsence.entities;
 
-import lombok.AllArgsConstructor;
-import lombok.Data;
-import lombok.NoArgsConstructor;
+import lombok.*;
 
 import javax.persistence.*;
 import java.io.Serializable;
 
 @Entity
-@Data
+@Getter
+@Setter
 @AllArgsConstructor
 @NoArgsConstructor
+@ToString
+@Table(name = "groups_subjects")
 public class GroupSubject implements Serializable {
+
     @EmbeddedId
     private GroupSubjectKey id;
 
-    @ManyToOne
     @MapsId("group_id")
-    @JoinColumn(name = "group_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
+    @JoinColumn(name = "group_id", nullable = false)
     private Group group;
 
-    @ManyToOne
     @MapsId("subject_id")
+    @ManyToOne(fetch = FetchType.LAZY, optional = false)
     @JoinColumn(name = "subject_id")
     private Subject subject;
 
+    @Column(name = "hours", nullable = false)
     private float hours;
 }
