@@ -22,7 +22,7 @@ public class EmailServiceImp implements EmailService {
         mailMessage.setFrom("ahmedbennatekup+spring@gmail.com");
         mailMessage.setTo(student.getEmail());
         mailMessage.setText("Hello "+student.getFirstName()+" "+student.getLastName()+" "+
-              ""+subject.getName()+" ");
+              "you have been ELIMINATED in "+subject.getName()+" ");
         mailMessage.setSubject("Elimination");
 
         javaMailSender.send(mailMessage);
