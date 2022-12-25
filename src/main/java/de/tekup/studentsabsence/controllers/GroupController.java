@@ -7,10 +7,7 @@ import de.tekup.studentsabsence.entities.Student;
 import de.tekup.studentsabsence.enums.LevelEnum;
 import de.tekup.studentsabsence.enums.SpecialityEnum;
 import de.tekup.studentsabsence.holders.GroupSubjectHolder;
-import de.tekup.studentsabsence.services.AbsenceService;
-import de.tekup.studentsabsence.services.GroupService;
-import de.tekup.studentsabsence.services.GroupSubjectService;
-import de.tekup.studentsabsence.services.SubjectService;
+import de.tekup.studentsabsence.services.*;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -24,6 +21,7 @@ import java.util.List;
 @RequestMapping("/groups")
 @AllArgsConstructor
 public class GroupController {
+    private final StudentService studentService;
     private final GroupService groupService;
     private final SubjectService subjectService;
     private final GroupSubjectService groupSubjectService;
@@ -140,7 +138,15 @@ public class GroupController {
     @PostMapping("/{id}/add-absences")
     public String addAbsence(@PathVariable long id, @Valid Absence absence, BindingResult bindingResult, @RequestParam(value = "students", required = false) List<Student> students, Model model) {
         //TODO Complete the body of this method
-        return "redirect:/groups/"+id+"/add-absences";
+
+        for (Student student : students){
+            Absence absence1 = absenceService.addAbsence(absence);
+            absence1.setStudent(student);
+            student.getAbsences().add(absence1);
+            studentService.updateStudent(student);
+        }
+        return "redirect:/groups/" + id + "/add-absences";
+
     }
 
 }

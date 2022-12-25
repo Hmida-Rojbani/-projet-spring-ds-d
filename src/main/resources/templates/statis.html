@@ -1,0 +1,96 @@
+<!doctype html>
+<html lang="en"
+      xmlns:th="http://www.thymeleaf.org"
+      layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<head>
+    <meta charset="UTF-8">
+    <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+          name="viewport">
+    <meta content="ie=edge" http-equiv="X-UA-Compatible">
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css" />
+
+    <!-- Optional theme -->
+    <link rel="stylesheet"
+          href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css" />
+
+    <title>INDEX</title>
+</head>
+<body>
+<div layout:fragment="content">
+    <div class="container">
+
+        <div id="container"
+             style="width: 550px; height: 400px; margin: 0 auto"></div>
+    </div>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script th:inline="javascript">
+        $(function(){
+            Highcharts.chart('container', {
+                chart: {
+                    type: 'column',
+                    zoomType: 'y'
+                },
+                title: {
+                    text: 'Max & Min estimated hours for Absences by Group Subject'
+                },
+                xAxis: {
+                    categories: [[${groups}]],
+                    title: {
+                        text: null
+                    },
+                    accessibility: {
+                        description: 'C'
+                    }
+                },
+                yAxis: {
+                    title: {
+                        text: 'Absence rates per hour'
+                    },
+                    labels: {
+                        overflow: 'justify'
+                    }
+                },
+                plotOptions: {
+                    column: {
+                        dataLabels: {
+                            enabled: true
+                        }
+                    }
+                },
+                tooltip: {
+                    valueSuffix: ' (1 H)',
+                    stickOnContact: true,
+                    borderColor: '#555',
+                    backgroundColor: 'rgba(255, 255, 255, 0.93)'
+                },
+                legend: {
+                    enabled: true
+                },
+                series: [
+                    {
+                        name: 'Max',
+                        data: [[${max}]],
+                        color: { patternIndex: 0 },
+                        borderColor: '#5f98cf'
+                    },
+                    {
+                        name: 'Min',
+                        data: [[${min}]],
+                        color: { patternIndex: 1 },
+                        borderColor: '#555'
+                    }
+                ]
+            });
+        });
+    </script>
+</div>
+</body>
+</html>
