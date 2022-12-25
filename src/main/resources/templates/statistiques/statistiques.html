@@ -1,0 +1,102 @@
+<!doctype html>
+<html lang="en"
+      layout:decorate="~{layout}"
+      xmlns:layout="http://www.ultraq.net.nz/thymeleaf/layout">
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"/>
+
+<!-- Optional theme -->
+<link rel="stylesheet"
+      href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap-theme.min.css"/>
+
+<head>
+  <meta charset="UTF-8">
+  <meta content="width=device-width, user-scalable=no, initial-scale=1.0, maximum-scale=1.0, minimum-scale=1.0"
+        name="viewport">
+  <meta content="ie=edge" http-equiv="X-UA-Compatible">
+  <title>INDEX</title>
+</head>
+<body>
+<div layout:fragment="content">
+  <div class="row">
+    <div class="col-md-12">
+
+      <div id="container" style="width: 100%; height: 700px; margin: 0 auto">
+
+      </div>
+
+    </div>
+    <script
+            src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.1/jquery.min.js"></script>
+    <!-- Latest compiled and minified JavaScript -->
+    <script
+            src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js"></script>
+    <script src="https://code.highcharts.com/highcharts.js"></script>
+    <script src="https://code.highcharts.com/modules/exporting.js"></script>
+    <script th:inline="javascript">
+      $(function () {
+        Highcharts.setOptions({
+          colors: ['#C0C0C0', '#0C090A']
+        });
+        Highcharts.chart('container', {
+          chart: {
+            type: 'column',
+            zoomType: 'y'
+          },
+          title: {
+            text: 'Maximum et minimum d\'absence dans chaque module par groupe'
+          },
+
+          xAxis: {
+            categories: [[${groups}]],
+            title: {
+              text: null
+            },
+            accessibility: {
+              description: 'Countries'
+            }
+          },
+          yAxis: {
+            title: {
+              text: 'Nombre d\'absence'
+            },
+            labels: {
+              overflow: 'justify'
+            }
+          },
+          plotOptions: {
+            column: {
+              dataLabels: {
+                enabled: true
+              }
+            }
+          },
+          tooltip: {
+            valueSuffix: ' (Absence)',
+            stickOnContact: true,
+            backgroundColor: 'rgba(255, 255, 255, 0.93)'
+          },
+          legend: {
+            enabled: true
+          },
+          series: [
+            {
+              name: 'Max',
+              data: [[${max}]],
+              borderColor: '#949494'
+            },
+            {
+              name: 'Min',
+              data: [[${min}]]
+            }
+          ]
+        });
+      });
+    </script>
+  </div>
+
+</div>
+</div>
+</div>
+</body>
+</html>
