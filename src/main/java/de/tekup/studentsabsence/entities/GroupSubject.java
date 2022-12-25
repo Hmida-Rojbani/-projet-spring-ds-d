@@ -12,6 +12,7 @@ import java.io.Serializable;
 @AllArgsConstructor
 @NoArgsConstructor
 public class GroupSubject implements Serializable {
+    //si on a clé primaire composé
     @EmbeddedId
     private GroupSubjectKey id;
 
@@ -27,3 +28,4 @@ public class GroupSubject implements Serializable {
 
     private float hours;
 }
+

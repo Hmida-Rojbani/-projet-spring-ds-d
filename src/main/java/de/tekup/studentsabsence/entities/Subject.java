@@ -21,5 +21,5 @@ public class Subject implements Serializable {
     private Long id;
     @NotBlank(message = "Name is required")
     private String name;
-
 }
+

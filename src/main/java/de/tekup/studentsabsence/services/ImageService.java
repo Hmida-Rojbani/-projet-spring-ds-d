@@ -7,6 +7,5 @@ import java.io.IOException;
 
 public interface ImageService {
     Image getImage(String id);
-
     Image addImage(MultipartFile image) throws IOException;
 }
