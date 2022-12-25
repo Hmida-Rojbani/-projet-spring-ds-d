@@ -19,7 +19,8 @@ public class ImageServiceImp implements ImageService {
     //TODO Complete this method
     @Override
     public Image getImage(String id) {
-        return null;
+
+        return imageRepository.findById(id).orElseThrow(()->new NoSuchElementException("No Image With ID: " + id));
     }
 
     @Override
@@ -30,4 +31,5 @@ public class ImageServiceImp implements ImageService {
         Image img = new Image(null, fileName, fileType, data);
         return imageRepository.save(img);
     }
+
 }

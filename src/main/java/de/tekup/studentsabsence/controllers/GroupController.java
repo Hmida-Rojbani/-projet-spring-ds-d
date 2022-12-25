@@ -51,7 +51,6 @@ public class GroupController {
             model.addAttribute("specialities", SpecialityEnum.values());
             return "groups/add";
         }
-
         groupService.addGroup(group);
         return "redirect:/groups";
     }
@@ -78,25 +77,30 @@ public class GroupController {
     @GetMapping("/{id}/delete")
     public String delete(@PathVariable long id) {
         groupService.deleteGroup(id);
+
         return "redirect:/groups";
     }
 
     @GetMapping("/{id}/show")
     public String show(@PathVariable long id, Model model) {
         Group group = groupService.getGroupById(id);
+        List<GroupSubject> groupSubjects =new ArrayList<>();
+        groupSubjectService.getSubjectsByGroupId(id).forEach(groupSubjects::add);
 
         model.addAttribute("group", group);
         model.addAttribute("groupSubjects",groupSubjectService.getSubjectsByGroupId(id));
         model.addAttribute("students",group.getStudents());
         model.addAttribute("absenceService", absenceService);
+        //group.getStudents().forEach(student -> {
+        // });
 
-        group.getStudents().forEach(student -> {
-
-        });
-
+        //Question 1
+        Subject subjectHavingMaxAbsence = groupSubjectService.getSubjectByGroupHavingMaxAbsence(groupSubjects);
+        Subject subjectHavingMinAbsence= groupSubjectService.getSubjectByGroupHavingMinAbsence(groupSubjects);
+        model.addAttribute("subjectHavingMaxAbsence", subjectHavingMaxAbsence);
+        model.addAttribute("subjectHavingMinAbsence", subjectHavingMinAbsence);
         return "groups/show";
     }
-
     @GetMapping("/{id}/add-subject")
     public String addSubjectView(Model model , @PathVariable Long id){
         model.addAttribute("groupSubjectHolder", new GroupSubjectHolder());
@@ -105,7 +109,6 @@ public class GroupController {
         return "groups/add-subject";
 
     }
-
     @PostMapping("/{id}/add-subject")
     public String addSubject(@PathVariable Long id, @Valid GroupSubjectHolder groupSubjectHolder, BindingResult bindingResult, Model model){
         if(bindingResult.hasErrors()) {
@@ -113,20 +116,18 @@ public class GroupController {
             model.addAttribute("subjects",subjectService.getAllSubjects());
             return "groups/add-subject";
         }
-
         Group group = groupService.getGroupById(id);
         groupSubjectService.addSubjectToGroup(group, groupSubjectHolder.getSubject(), groupSubjectHolder.getHours());
         return "redirect:/groups/"+id+"/add-subject";
     }
-
     @GetMapping("/{gid}/subject/{sid}/delete")
     public String deleteSubject(@PathVariable Long gid, @PathVariable Long sid){
         groupSubjectService.deleteSubjectFromGroup(gid, sid);
         return "redirect:/groups/"+gid+"/show";
     }
-
     @GetMapping("/{id}/add-absences")
-    public String addAbsenceView(@PathVariable long id, Model model) {
+    public String addAbsenceView(@PathVariable long id,
+                                 Model model) {
         Group group = groupService.getGroupById(id);
 
         model.addAttribute("group", group);
@@ -138,8 +139,27 @@ public class GroupController {
     }
 
     @PostMapping("/{id}/add-absences")
-    public String addAbsence(@PathVariable long id, @Valid Absence absence, BindingResult bindingResult, @RequestParam(value = "students", required = false) List<Student> students, Model model) {
+    public String addAbsence(@PathVariable long id,
+                             @Valid Absence absence,
+                             BindingResult bindingResult,
+                             @RequestParam(value = "students", required = false) List<Student> students,
+                             Model model) {
         //TODO Complete the body of this method
+        Group group = groupService.getGroupById(id);
+        if(bindingResult.hasErrors()) {
+            model.addAttribute("group", group);
+            model.addAttribute("absence", new Absence());
+            model.addAttribute("groupSubjects", groupSubjectService.getSubjectsByGroupId(id));
+            model.addAttribute("students", group.getStudents());
+        }
+        for(Student student : students){
+            Absence newAbsence = new Absence();
+            newAbsence.setStudent(student);
+            newAbsence.setHours(absence.getHours());
+            newAbsence.setSubject(absence.getSubject());
+            newAbsence.setStartDate(absence.getStartDate());
+            absenceService.addAbsence(newAbsence);
+        }
         return "redirect:/groups/"+id+"/add-absences";
     }
 
