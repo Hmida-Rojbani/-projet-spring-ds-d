@@ -10,4 +10,7 @@ public interface GroupSubjectService {
     void addSubjectToGroup(Group group, Subject subject, float hours);
     List<GroupSubject> getSubjectsByGroupId(Long id);
     void deleteSubjectFromGroup(Long gid, Long sid);
+    Subject findSubjectWithMaxAbsence(List<GroupSubject> groupSubjects);
+    Subject findSubjectWithMinAbsence(List<GroupSubject> groupSubjects);
+
 }
