@@ -61,13 +61,16 @@ public class StudentController {
     }
 
     @PostMapping("/{sid}/update")
-    public String update(@PathVariable Long sid, @Valid Student student, BindingResult bindingResult, Model model) {
+    public String update(@PathVariable Long sid,
+                         @Valid Student student,
+                         BindingResult bindingResult,
+                         Model model) {
         if(bindingResult.hasErrors()) {
             model.addAttribute("groups", groupService.getAllGroups());
             return "students/update";
         }
 
-        studentService.updateStudent(student);
+        studentService.updateStudent(sid,student);
         return "redirect:/students";
     }
 
@@ -91,13 +94,19 @@ public class StudentController {
 
     @PostMapping("/{sid}/add-image")
     //TODO complete the parameters of this method
-    public String addImage() {
+    public String addImage(@Valid @PathVariable Long sid ,
+                           @RequestParam("image") MultipartFile multipartFile) throws IOException {
         //TODO complete the body of this method
+        Image img=imageService.addImage(multipartFile);
+        Student student=studentService.getStudentBySid(sid);
+        student.setImage(img);
+        studentService.updateStudent( sid,student);
         return "redirect:/students";
     }
 
     @RequestMapping(value = "/{sid}/display-image")
-    public void getStudentPhoto(HttpServletResponse response, @PathVariable("sid") long sid) throws Exception {
+    public void getStudentPhoto(HttpServletResponse response,
+                                @PathVariable("sid") long sid) throws Exception {
         Student student = studentService.getStudentBySid(sid);
         Image image = student.getImage();
 

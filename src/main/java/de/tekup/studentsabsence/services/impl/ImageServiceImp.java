@@ -19,7 +19,8 @@ public class ImageServiceImp implements ImageService {
     //TODO Complete this method
     @Override
     public Image getImage(String id) {
-        return null;
+        return imageRepository.findById(id)
+                .orElseThrow(()->new NoSuchElementException(" ID image not found: " + id));
     }
 
     @Override
