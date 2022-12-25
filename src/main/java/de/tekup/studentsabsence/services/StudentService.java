@@ -11,7 +11,7 @@ public interface StudentService {
 
     Student addStudent(Student student);
 
-    Student updateStudent(Student student);
+    Student updateStudent(Long sid,Student student);
 
     Student deleteStudent(Long sid);
 }
