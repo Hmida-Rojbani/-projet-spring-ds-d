@@ -7,6 +7,8 @@ import lombok.Data;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
 
+import java.util.List;
+
 import javax.persistence.*;
 import javax.validation.constraints.NotBlank;
 import javax.validation.constraints.NotNull;
@@ -31,6 +33,8 @@ public class Group {
     private SpecialityEnum speciality;
     //TODO Complete Relations with other entities
 
+    @OneToMany(mappedBy = "group")
+    private List<Student> students;
 
 
 }

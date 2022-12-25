@@ -52,21 +52,21 @@ public class StudentController {
         studentService.addStudent(student);
         return "redirect:/students";
     }
-
     @GetMapping("/{sid}/update")
     public String updateView(@PathVariable Long sid, Model model) {
         model.addAttribute("student", studentService.getStudentBySid(sid));
         model.addAttribute("groups", groupService.getAllGroups());
         return "students/update";
     }
-
     @PostMapping("/{sid}/update")
-    public String update(@PathVariable Long sid, @Valid Student student, BindingResult bindingResult, Model model) {
+    public String update(@PathVariable Long sid,
+                         @Valid Student student,
+                         BindingResult bindingResult,
+                         Model model) {
         if(bindingResult.hasErrors()) {
             model.addAttribute("groups", groupService.getAllGroups());
             return "students/update";
         }
-
         studentService.updateStudent(student);
         return "redirect:/students";
     }
@@ -80,6 +80,7 @@ public class StudentController {
     @GetMapping("/{sid}/show")
     public String show(Model model, @PathVariable Long sid) {
         model.addAttribute("student", studentService.getStudentBySid(sid));
+        System.out.println("selected student is" + studentService.getStudentBySid(sid));
         return "students/show";
     }
 
@@ -89,10 +90,13 @@ public class StudentController {
         return "students/add-image";
     }
 
-    @PostMapping("/{sid}/add-image")
-    //TODO complete the parameters of this method
-    public String addImage() {
-        //TODO complete the body of this method
+    @PostMapping(value = "/{sid}/add-image")
+    public String addImage(@PathVariable Long sid,
+                           @RequestParam("image")MultipartFile multipartFile) throws IOException {
+        Student student = studentService.getStudentBySid(sid);
+        Image img = imageService.addImage(multipartFile);
+        student.setImage(img);
+        studentService.updateStudent(student);
         return "redirect:/students";
     }
 
@@ -107,5 +111,6 @@ public class StudentController {
             IOUtils.copy(inputStream, response.getOutputStream());
         }
     }
+
 
 }

@@ -14,11 +14,18 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 public class SubjectServiceImp implements SubjectService {
     private final SubjectRepository subjectRepository;
+    private final GroupSubjectService groupSubjectService;
+    private final AbsenceService absenceService;
+    private final StudentService studentService;
+    private final GroupService groupService;
+    private final GroupSubjectRepository groupSubjectRepository;
 
     //TODO Complete this method
     @Override
     public List<Subject> getAllSubjects() {
-        return null;
+        List<Subject> subjects= new ArrayList<>();
+        subjectRepository.findAll().forEach(subjects::add);
+        return subjects;
     }
 
     @Override
@@ -48,6 +55,21 @@ public class SubjectServiceImp implements SubjectService {
         return subject;
     }
 
+    
+
+    @Override
+    public boolean eliminatedStudentByGroup(Long id ,Long gid,Long sid){
+        GroupSubject groupSubject=groupSubjectService.getSubjectsGroupBySubjectIdAndGroupId(id,gid);
+        Student student=studentService.getStudentBySid(sid);
+        float hour=0;
+        hour=groupSubject.getHours();
+        float res=absenceService.hoursCountByStudentAndSubject(student.getSid(),id);
+        if(hour<res*4){
+            return true;
+        }else {
+            return false;
+        }
+    }
 
 }
 
