@@ -1,7 +1,9 @@
 package de.tekup.studentsabsence.services;
 
 import de.tekup.studentsabsence.entities.Absence;
+import de.tekup.studentsabsence.entities.Student;
 
+import java.util.Collection;
 import java.util.List;
 
 public interface AbsenceService {

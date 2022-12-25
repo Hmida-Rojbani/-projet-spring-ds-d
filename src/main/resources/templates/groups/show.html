@@ -104,6 +104,56 @@
                         </div>
                     </div>
                 </div>
+                <div class="row">
+                    <div class="col-md-12">
+                        <div class="card">
+                            <div class="card-header card-header-text card-header-primary">
+                                <div class="card-text">
+                                    <h4 class="card-title">Subject with Max ABSENCES</h4>
+                                </div>
+                            </div>
+                            <div class="card-body table-responsive">
+                                <table class="table table-hover">
+                                    <tr>
+                                        <th class="text-primary">Name</th>
+                                        <th class="text-primary" >TOTAL Absences</th>
+                                    </tr>
+                                    <tr>
+                                        <td th:text="${subjectWithMaxAbsence.name}"></td>
+<!--                                        <td th:text="${absenceService.hoursCountByGroupAndSubject(group.id, subjectWithMaxAbsence.id)+'h'}"></td>-->
+                                    </tr>
+
+                                </table>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div class="row">
+                <div class="col-md-12">
+                    <div class="card">
+                        <div class="card-header card-header-text card-header-primary">
+                            <div class="card-text">
+                                <h4 class="card-title">Subject with Min ABSENCES</h4>
+                            </div>
+                        </div>
+                        <div class="card-body table-responsive">
+                            <table class="table table-hover">
+                                <tr>
+                                    <th class="text-primary">Name</th>
+                                    <th class="text-primary" >TOTAL Absences</th>
+                                </tr>
+                                <tr>
+                                    <td th:text="${subjectWithMinAbsence.name}"></td>
+                                    <td th:text="${absenceService.hoursCountByGroupAndSubject(group.id, subjectWithMinAbsence.id)+'h'}"></td>
+                                </tr>
+
+                            </table>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
             </div>
         </div>
     </div>

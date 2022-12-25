@@ -1,12 +1,15 @@
 package de.tekup.studentsabsence.services.impl;
 
 import de.tekup.studentsabsence.entities.Absence;
+import de.tekup.studentsabsence.entities.Student;
+import de.tekup.studentsabsence.entities.Subject;
 import de.tekup.studentsabsence.repositories.AbsenceRepository;
 import de.tekup.studentsabsence.services.AbsenceService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.List;
 import java.util.NoSuchElementException;
 
@@ -22,6 +25,7 @@ public class AbsenceServiceImp implements AbsenceService {
         return absences;
     }
 
+
     @Override
     public List<Absence> getAllAbsencesByGroupId(Long id) {
         List<Absence> absences = new ArrayList<>();
@@ -33,6 +37,7 @@ public class AbsenceServiceImp implements AbsenceService {
     public List<Absence> getAllAbsencesByStudentId(Long sid) {
         List<Absence> absences = new ArrayList<>();
         //TODO complete the missing instructions
+        absenceRepository.findAllByStudent_Sid(sid).forEach(absences::add);
         return absences;
     }
 
@@ -40,6 +45,7 @@ public class AbsenceServiceImp implements AbsenceService {
     public List<Absence> getAllAbsencesByStudentIdAndSubjectId(Long sid, Long id) {
         List<Absence> absences = new ArrayList<>();
         //TODO complete the missing instructions
+        absenceRepository.findAllByStudent_SidAndSubject_Id(sid,id).forEach(absences::add);
         return absences;
     }
 
@@ -86,8 +92,11 @@ public class AbsenceServiceImp implements AbsenceService {
     }
     //TODO Complete the countHours method
     public float countHours(List<Absence> absences) {
-
-        return 0;
+        float absenceHours = 0;
+        for (Absence absence1:absences){
+            absenceHours+=absence1.getHours();
+        }
+        return absenceHours;
     }
 
 }

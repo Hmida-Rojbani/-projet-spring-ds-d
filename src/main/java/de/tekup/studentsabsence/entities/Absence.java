@@ -11,6 +11,7 @@ import javax.validation.constraints.Past;
 import javax.validation.constraints.Positive;
 import java.io.Serializable;
 import java.time.LocalDateTime;
+import java.util.List;
 
 @Entity
 @Data
@@ -29,5 +30,9 @@ public class Absence implements Serializable {
     private float hours;
    //TODO Complete Relations with other entities
 
+    @ManyToOne
+    private Subject subject;
 
+    @ManyToOne
+    private Student student;
 }
