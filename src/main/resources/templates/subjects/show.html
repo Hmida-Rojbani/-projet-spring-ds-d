@@ -18,7 +18,7 @@
                     <div class="card-icon">
                         <i class="material-icons">supervised_user_circle</i>
                     </div>
-                    <h4 class="card-title">SHOW SUBJECT</h4>
+                    <h4 class="card-title">SUBJECTS</h4>
                 </div>
                 <div class="card-body">
                     <div class="row">
@@ -27,8 +27,42 @@
                                 <div class="card-body table-responsive">
                                     <table class="table table-hover">
                                         <tbody>
-                                        <tr><td class="text-primary"><strong>Name:</strong></td> <td><span th:text="${subject.name}"></span></td></tr>
+                                        <tr>
+                                            <td class="text-primary"><strong>Name:</strong></td>
+                                            <td><span th:text="${subject.name}"></span></td></tr>
                                         </tbody>
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- Question 2 eliminated student and sending mail -->
+                    <div class="row" th:each="group:${groups}" th:with="gid=${group.id}">
+
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-text card-header-primary">
+                                    <div class="card-text">
+                                        <h4 class="card-title" th:text="'Eliminate students from : '+${group.name}"></h4>
+                                    </div>
+                                </div>
+                                <div class="card-body table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <th class="text-primary" >Student Name</th>
+                                        <th class="text-primary" >Student Group</th>
+                                        <th class="text-primary"> Send Email</th>
+                                        </thead>
+                                        <tr th:each="student : ${group.getStudents()}"
+                                            th:if="${subjectService.isStudentEliminated(subject.id,group.id,student.sid) == true}">
+                                            <td th:text="${student.firstName+' '+student.lastName}"></td>
+                                            <td th:text="${group.name}"></td>
+                                            <td>
+                                                <a class="btn btn-link btn-primary btn-just-icon remove"
+                                                   th:href="@{/subjects/sendMail/{sid}/{sbid} (sid=${student.sid}, sbid=${subject.id})}"
+                                                ><i class="material-icons">mail</i></a>
+                                            </td>
+                                        </tr >
                                     </table>
                                 </div>
                             </div>
