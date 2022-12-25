@@ -31,6 +31,54 @@
                                         </tbody>
                                     </table>
                                 </div>
+
+
+                            </div>
+                        </div>
+                        <div class="col-md-12">
+                            <div class="material-datatables">
+                                <table cellspacing="0" class="table table-striped table-no-bordered table-hover" id="datatables"
+                                       style="width:100%" width="100%">
+                                    <thead>
+                                    <tr>
+                                        <th>SID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Birthday</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Group</th>
+                                        <th class="disabled-sorting text-right">Actions</th>
+                                    </tr>
+                                    </thead>
+                                    <tfoot>
+                                    <tr>
+                                        <th>SID</th>
+                                        <th>First Name</th>
+                                        <th>Last Name</th>
+                                        <th>Birthday</th>
+                                        <th>Email</th>
+                                        <th>Phone</th>
+                                        <th>Group</th>
+                                        <th class="disabled-sorting text-right">Actions</th>
+                                    </tr>
+                                    </tfoot>
+                                    <tbody>
+                                    <tr th:each="student : ${studentabs}">
+                                        <td th:text="${student.sid }"></td>
+                                        <td th:text="${student.firstName }"></td>
+                                        <td th:text="${student.lastName }"></td>
+                                        <td th:text="${student.dob }"></td>
+                                        <td th:text="${student.email }"></td>
+                                        <td th:text="${student.phone }"></td>
+                                        <td th:text="${student.group.name}"></td>
+                                        <td class="text-right">
+                                            <a class="btn btn-link btn-warning btn-just-icon like" rel="tooltip" title="Envoyer un email"
+                                               th:href="@{/subjects/{idSubject}/sendMail/{idStudent} (idStudent=${student.sid}, idSubject=${subject.id})}"><i class="material-icons">contact_mail</i></a>
+                                        </td>
+                                    </tr>
+                                    </tbody>
+                                </table>
                             </div>
                         </div>
                     </div>

@@ -33,6 +33,7 @@ public class AbsenceServiceImp implements AbsenceService {
     public List<Absence> getAllAbsencesByStudentId(Long sid) {
         List<Absence> absences = new ArrayList<>();
         //TODO complete the missing instructions
+        absences.addAll(absenceRepository.findAllByStudent_Sid(sid));
         return absences;
     }
 
@@ -40,6 +41,7 @@ public class AbsenceServiceImp implements AbsenceService {
     public List<Absence> getAllAbsencesByStudentIdAndSubjectId(Long sid, Long id) {
         List<Absence> absences = new ArrayList<>();
         //TODO complete the missing instructions
+        absences.addAll(absenceRepository.findAllByStudent_SidAndSubject_Id(sid,id));
         return absences;
     }
 
@@ -87,7 +89,12 @@ public class AbsenceServiceImp implements AbsenceService {
     //TODO Complete the countHours method
     public float countHours(List<Absence> absences) {
 
-        return 0;
+        float abs=0;
+        for (Absence absence:absences){
+            abs+=absence.getHours();
+        }
+
+        return abs;
     }
 
 }

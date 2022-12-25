@@ -18,7 +18,7 @@ public class SubjectServiceImp implements SubjectService {
     //TODO Complete this method
     @Override
     public List<Subject> getAllSubjects() {
-        return null;
+        return (List<Subject>) subjectRepository.findAll();
     }
 
     @Override
