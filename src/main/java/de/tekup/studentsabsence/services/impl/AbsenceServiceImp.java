@@ -1,11 +1,15 @@
 package de.tekup.studentsabsence.services.impl;
 
 import de.tekup.studentsabsence.entities.Absence;
+import de.tekup.studentsabsence.entities.Student;
 import de.tekup.studentsabsence.repositories.AbsenceRepository;
 import de.tekup.studentsabsence.services.AbsenceService;
+import de.tekup.studentsabsence.services.MailSenderService;
+import de.tekup.studentsabsence.services.StudentService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
+import javax.mail.MessagingException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.NoSuchElementException;
@@ -14,6 +18,8 @@ import java.util.NoSuchElementException;
 @AllArgsConstructor
 public class AbsenceServiceImp implements AbsenceService {
     private final AbsenceRepository absenceRepository;
+    private MailSenderService mailSenderService;
+    private StudentService studentService;
 
     @Override
     public List<Absence> getAllAbsences() {
@@ -73,7 +79,25 @@ public class AbsenceServiceImp implements AbsenceService {
     @Override
     public float hoursCountByStudent(Long sid) {
         List<Absence> absences = getAllAbsencesByStudentId(sid);
-        return countHours(absences);
+        Student student=studentService.getStudentBySid(sid);
+
+        float hour= countHours(absences);
+        if (hour>3){
+
+            try {
+                this.mailSenderService.send(student.getEmail(),
+                        "Elimination  ",
+                        "Bonjour,<br>\n " +
+                                "Vous etes abscent dans plusiers subject.<br>\n " +
+                                "vous etes éliminer.<br>\n" +
+                                " Cordialement");
+
+            } catch (MessagingException e) {
+                e.printStackTrace();
+            }
+
+        }
+        return hour;
     }
 
     @Override
