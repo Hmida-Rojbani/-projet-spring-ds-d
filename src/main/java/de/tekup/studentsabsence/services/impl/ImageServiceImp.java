@@ -1,33 +1,56 @@
 package de.tekup.studentsabsence.services.impl;
 
-import de.tekup.studentsabsence.entities.Image;
-import de.tekup.studentsabsence.repositories.ImageRepository;
-import de.tekup.studentsabsence.services.ImageService;
+import de.tekup.studentsabsence.entities.Absence;
+import de.tekup.studentsabsence.entities.Subject;
+import de.tekup.studentsabsence.repositories.SubjectRepository;
+import de.tekup.studentsabsence.services.SubjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
-import org.springframework.util.StringUtils;
-import org.springframework.web.multipart.MultipartFile;
 
-import java.io.IOException;
+import java.util.ArrayList;
+import java.util.List;
 import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
-public class ImageServiceImp implements ImageService {
-    private final ImageRepository imageRepository;
+public class SubjectServiceImp implements SubjectService {
+    private final SubjectRepository subjectRepository;
 
-    //TODO Complete this method
+    //TODO Complete this method//done
     @Override
-    public Image getImage(String id) {
-        return null;
+    public List<Subject> getAllSubjects() {
+        List<Subject> subjects = new ArrayList<>();
+        subjectRepository.findAll().forEach(subjects::add);
+        return subjects ;
     }
 
     @Override
-    public Image addImage(MultipartFile image) throws IOException {
-        String fileName = StringUtils.cleanPath(image.getOriginalFilename());
-        String fileType = image.getContentType();
-        byte[] data = image.getBytes();
-        Image img = new Image(null, fileName, fileType, data);
-        return imageRepository.save(img);
+    public Subject getSubjectById(Long id) {
+        return subjectRepository.findById(id).
+                orElseThrow(() -> new NoSuchElementException("No Subject with ID: " + id));
+
     }
+
+    @Override
+    public Subject addSubject(Subject subject) {
+        return subjectRepository.save(subject);
+    }
+
+    @Override
+    public Subject updateSubject(Subject subject) {
+        if (!subjectRepository.existsById(subject.getId())) {
+            throw new NoSuchElementException("No Subject with ID : " + subject.getId());
+        }
+        return subjectRepository.save(subject);
+    }
+
+    @Override
+    public Subject deleteSubject(Long id) {
+        Subject subject = getSubjectById(id);
+        subjectRepository.delete(subject);
+        return subject;
+    }
+
+
 }
+
