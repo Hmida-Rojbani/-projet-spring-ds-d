@@ -2,6 +2,7 @@ package de.tekup.studentsabsence.controllers;
 
 import de.tekup.studentsabsence.entities.Image;
 import de.tekup.studentsabsence.entities.Student;
+import de.tekup.studentsabsence.entities.Subject;
 import de.tekup.studentsabsence.services.GroupService;
 import de.tekup.studentsabsence.services.ImageService;
 import de.tekup.studentsabsence.services.StudentService;
@@ -90,11 +91,18 @@ public class StudentController {
     }
 
     @PostMapping("/{sid}/add-image")
-    //TODO complete the parameters of this method
-    public String addImage() {
+    //TODO complete the parameters of this method //done
+    public String addImage(@Valid Image image, BindingResult bindingResult) throws IOException {
         //TODO complete the body of this method
+    	  if(bindingResult.hasErrors()) {
+    	        return "students/add";
+    	    }
+
+    	    imageService.addImage((MultipartFile) image);
         return "redirect:/students";
     }
+   
+    
 
     @RequestMapping(value = "/{sid}/display-image")
     public void getStudentPhoto(HttpServletResponse response, @PathVariable("sid") long sid) throws Exception {
