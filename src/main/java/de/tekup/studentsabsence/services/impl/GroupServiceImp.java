@@ -1,8 +1,9 @@
 package de.tekup.studentsabsence.services.impl;
 
-import de.tekup.studentsabsence.entities.Group;
-import de.tekup.studentsabsence.repositories.GroupRepository;
-import de.tekup.studentsabsence.services.GroupService;
+import de.tekup.studentsabsence.entities.Absence;
+import de.tekup.studentsabsence.entities.Subject;
+import de.tekup.studentsabsence.repositories.SubjectRepository;
+import de.tekup.studentsabsence.services.SubjectService;
 import lombok.AllArgsConstructor;
 import org.springframework.stereotype.Service;
 
@@ -12,38 +13,44 @@ import java.util.NoSuchElementException;
 
 @Service
 @AllArgsConstructor
-public class GroupServiceImp implements GroupService {
-    private final GroupRepository groupRepository;
+public class SubjectServiceImp implements SubjectService {
+    private final SubjectRepository subjectRepository;
 
+    //TODO Complete this method//done
     @Override
-    public List<Group> getAllGroups() {
-        List<Group> groups = new ArrayList<>();
-        groupRepository.findAll().forEach(groups::add);
-        return groups;
+    public List<Subject> getAllSubjects() {
+        List<Subject> subjects = new ArrayList<>();
+        subjectRepository.findAll().forEach(subjects::add);
+        return subjects ;
     }
 
     @Override
-    public Group getGroupById(Long id) {
-        return groupRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No Group With ID: " + id));
+    public Subject getSubjectById(Long id) {
+        return subjectRepository.findById(id).
+                orElseThrow(() -> new NoSuchElementException("No Subject with ID: " + id));
+
     }
 
     @Override
-    public Group addGroup(Group group) {
-        return groupRepository.save(group);
+    public Subject addSubject(Subject subject) {
+        return subjectRepository.save(subject);
     }
 
     @Override
-    public Group updateGroup(Group group) {
-        if (!groupRepository.existsById(group.getId())) {
-            throw new NoSuchElementException("No Group With ID: " + group.getId());
+    public Subject updateSubject(Subject subject) {
+        if (!subjectRepository.existsById(subject.getId())) {
+            throw new NoSuchElementException("No Subject with ID : " + subject.getId());
         }
-        return groupRepository.save(group);
+        return subjectRepository.save(subject);
     }
 
     @Override
-    public Group deleteGroup(Long id) {
-        Group group = getGroupById(id);
-        groupRepository.delete(group);
-        return group;
+    public Subject deleteSubject(Long id) {
+        Subject subject = getSubjectById(id);
+        subjectRepository.delete(subject);
+        return subject;
     }
+
+
 }
+
