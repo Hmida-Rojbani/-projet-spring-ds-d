@@ -1,5 +1,6 @@
 package de.tekup.studentsabsence.services.impl;
 
+import de.tekup.studentsabsence.entities.Absence;
 import de.tekup.studentsabsence.entities.Subject;
 import de.tekup.studentsabsence.repositories.SubjectRepository;
 import de.tekup.studentsabsence.services.SubjectService;
@@ -15,10 +16,12 @@ import java.util.NoSuchElementException;
 public class SubjectServiceImp implements SubjectService {
     private final SubjectRepository subjectRepository;
 
-    //TODO Complete this method
+    //TODO Complete this method//done
     @Override
     public List<Subject> getAllSubjects() {
-        return null;
+        List<Subject> subjects = new ArrayList<>();
+        subjectRepository.findAll().forEach(subjects::add);
+        return subjects ;
     }
 
     @Override
