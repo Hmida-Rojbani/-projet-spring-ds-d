@@ -16,10 +16,11 @@ import java.util.NoSuchElementException;
 public class ImageServiceImp implements ImageService {
     private final ImageRepository imageRepository;
 
-    //TODO Complete this method
+    //TODO Complete this method //done a reviser
     @Override
     public Image getImage(String id) {
-        return null;
+    	return imageRepository.findById(id).orElseThrow(() -> new NoSuchElementException("No Image With ID: " + id));
+        
     }
 
     @Override
@@ -27,7 +28,7 @@ public class ImageServiceImp implements ImageService {
         String fileName = StringUtils.cleanPath(image.getOriginalFilename());
         String fileType = image.getContentType();
         byte[] data = image.getBytes();
-        Image img = new Image(null, fileName, fileType, data);
+        Image img = new Image(null, fileName, fileType, data, null);//a reviser
         return imageRepository.save(img);
     }
 }

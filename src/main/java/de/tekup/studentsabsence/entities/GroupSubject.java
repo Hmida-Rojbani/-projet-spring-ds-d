@@ -26,4 +26,6 @@ public class GroupSubject implements Serializable {
     private Subject subject;
 
     private float hours;
+    
+ 
 }

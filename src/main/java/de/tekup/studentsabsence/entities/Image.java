@@ -9,6 +9,7 @@ import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
 import javax.persistence.Lob;
+import javax.persistence.OneToOne;
 
 @Entity
 @Data
@@ -23,4 +24,7 @@ public class Image {
     private String fileType;
     @Lob
     private byte[] data;
+    //a reviser mafihech todo ama ena zedtha
+    @OneToOne
+    private Student student;
 }
