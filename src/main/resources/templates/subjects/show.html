@@ -34,6 +34,45 @@
                             </div>
                         </div>
                     </div>
+                    <!-- Question 2 eliminated student and sending mail -->
+
+                    <div class="row" th:each="group:${groups}"
+                         th:with="gid=${group.id}">
+                        <div class="col-md-12">
+                            <div class="card">
+                                <div class="card-header card-header-text card-header-primary">
+                                    <div class="card-text">
+                                        <h4 class="card-title" th:text="${group.name}+' '+'Eliminate Students'"></h4>
+                                    </div>
+                                </div>
+                                <div class="card-body table-responsive">
+                                    <table class="table table-hover">
+                                        <thead>
+                                        <th class="text-primary" >Student Name</th>
+                                        <th class="text-primary" >Student Group</th>
+                                        <th class="text-primary"> Send Email</th>
+                                        </thead>
+                                        <tr th:each="student : ${group.getStudents()}"
+                                            th:if="${subjectService.eliminatedStudentByGroup(subject.id,group.id,student.sid) == true}">
+
+                                            <td th:text="${student.firstName+' '+student.lastName}"></td>
+                                            <td th:text="${group.name}"></td>
+                                            <td>
+                                                <a class="btn btn-link btn-primary btn-just-icon remove"
+                                                   th:href="@{/subjects/Mail/{sid}/{sbid} (sid=${student.sid}, sbid=${subject.id})}"
+                                                ><i class="material-icons"> Email</i></a>
+                                            </td>
+                                        </tr >
+
+                                    </table>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+
+
+
                 </div>
             </div>
         </div>
